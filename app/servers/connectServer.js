@@ -25,9 +25,6 @@ class ConnectServer extends EventEmitter {
 
     });
     this.parser.on('data-received', userId => {
-      // Create User
-      console.log(userId);
-      console.log(socket);
       this.emit('connect-user', userId, socket);
     });
   }
