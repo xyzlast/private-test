@@ -4,29 +4,21 @@ const uuid = require('uuid').v4;
 const EventEmitter = require('events').EventEmitter;
 
 class User extends EventEmitter {
-  constructor(socket) {
-    this._id = uuid();
+  constructor(id, socket) {
+    super();    
+    this.id = id;
     this.socket = socket;
-    this.id = null;
     this.followUsers = [];
   }
-  setId(userId) {
-    this.id = userId;
+  followTo(targetUser) {
+
   }
-  addFollows(followUser) {
-    this.followUsers.push(followUser);
-    followUser.on('unfollow', () => {
-      const index = this.followUsers.indexOf(followUser);
-      _.remove(this.followUsers, followedUser => {
-        return followedUser.id === followUser.id;
-      });
-    });
+  unfollowFrom(targetUser) {
+
   }
   send(payload) {
     this.socket.write(payload);
   }
-  
-      
 }
 
 module.exports = User;
