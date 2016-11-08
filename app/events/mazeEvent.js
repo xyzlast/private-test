@@ -13,7 +13,7 @@ const UnfollowEventHandler = require('./handlers/unfollowEventHandler');
 const BroadcastEventHandler = require('./handlers/broadcastEventHandler');
 const PrivateMessageEventHandler = require('./handlers/privateMessageEventHandler');
 const StatusUpdateEventHandler = require('./handlers/statusUpdateEventHandler');
-const UserStore = require('../models/UserStore');
+const UserStore = require('../models/userStore');
 
 class MazeEvent {
 

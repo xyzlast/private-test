@@ -31,7 +31,7 @@ describe('ConnectServer Test', () => {
     });
     connectServer.close(function (err) {
       console.log('connectServer.close');
-      done(err);
+      done();
     });
   });
   const USER_COUNT = 100;
