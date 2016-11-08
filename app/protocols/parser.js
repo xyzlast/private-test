@@ -1,13 +1,11 @@
 'use strict';
 
 const EventEmitter = require('events').EventEmitter;
-const assert = require('assert');
 
 class Parser extends EventEmitter {
   constructor(matcher) {
     super();
-    assert.ok(matcher, 'matcher is not null or undefined');
-    this.matcher = matcher;
+    this.matcher = matcher || /\r?\n/;
     this.buffer = '';
   }
 
@@ -15,7 +13,9 @@ class Parser extends EventEmitter {
     const items = (this.buffer + data.toString()).split(this.matcher);
     this.buffer = items.pop();
     items.forEach(item => {
-      this.emit('data-received', item);
+      if (item) {
+        this.emit('data-received', item);
+      }
     });
   }
 }

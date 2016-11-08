@@ -2,7 +2,7 @@
 
 describe('Parser Test', () => {
   const assert = require('assert');
-  const Parser = require('../app/parser');
+  const Parser = require('../../app/protocols/parser');
 
   function runAndCheckFunc(dataBundles, expectCount, done) {
     const parser = new Parser('\r\n');

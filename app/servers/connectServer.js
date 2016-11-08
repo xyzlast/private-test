@@ -2,16 +2,16 @@
 
 const EventEmitter  = require('events').EventEmitter;
 const net = require('net');
-const Parser = require('../parser');
+const Parser = require('../protocols/parser');
 
 class ConnectServer extends EventEmitter {
   constructor() {
     super();
-    this.parser = new Parser('\n\r');
+    this.clients = [];
   }
   listen(port, cb) {
-    this.server = net.createServer(socket => {
-      this.bindSocket(socket);
+    this.server = net.createServer(client => {
+      this.bindClient(client);
     });
     this.server.listen(port, err => {
       // NOTE: ERROR 처리는 어떻게?
@@ -23,15 +23,13 @@ class ConnectServer extends EventEmitter {
   close(cb) {
     this.server.close(cb);
   }
-  bindSocket(socket) {
-    socket.on('data', data => {
-      this.parser.parse(data);
+  bindClient(client) {
+    const parser = new Parser();
+    client.on('data', data => {
+      parser.parse(data.toString() + '\n');
     });
-    socket.on('disconnect', () => {
-
-    });
-    this.parser.on('data-received', userId => {
-      this.emit('connect-user', userId, socket);
+    parser.on('data-received', userId => {
+      this.emit('connect-user', userId, client);
     });
   }
 }
