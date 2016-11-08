@@ -43,4 +43,9 @@ describe('UserStore Test', () => {
     assert.equal(itemCount, 4);
     done();
   });
+
+  after(() => {
+    const UserStore = require('../../app/models/userStore');
+    UserStore.removeAll();
+  });
 });

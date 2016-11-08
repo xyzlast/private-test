@@ -11,7 +11,7 @@ describe('ConnectServer Test', () => {
   const port = 9090;
   const clients = [];
   before(done => {
-    process.setMaxListeners(0);
+    UserStore.removeAll();
     connectServer.listen(port, (err) => {
       if (err) {
         console.log('====================================================');
@@ -31,7 +31,7 @@ describe('ConnectServer Test', () => {
     });
     connectServer.close(function (err) {
       console.log('connectServer.close');
-      done(err);
+      done();
     });
   });
   const USER_COUNT = 100;
@@ -61,9 +61,12 @@ describe('ConnectServer Test', () => {
     UserStore.on('remove-user', userId => {
       const users = UserStore.getAll();
       let userCount = 0;
+      console.log('====================================================');
       _.forIn(users, (value, key) => {
+        console.log(value.toString());
         userCount++;
       });
+      console.log('====================================================');
       assert.equal(userCount, USER_COUNT - 1);
       done();
     });

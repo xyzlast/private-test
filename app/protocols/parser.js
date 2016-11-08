@@ -5,7 +5,7 @@ const EventEmitter = require('events').EventEmitter;
 class Parser extends EventEmitter {
   constructor(matcher) {
     super();
-    this.matcher = matcher || /\r?\n/;
+    this.matcher = matcher || /\r\n/;
     this.buffer = '';
   }
 
