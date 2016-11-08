@@ -78,7 +78,7 @@ events **in the correct order**, regardless of the order in which the
 
 ### The Configuration
 
-During development, it is possible to modify the test program behavior using the 
+During development, it is possible to modify the test program behavior using the
 following environment variables:
 
 1. **logLevel** - Default: info
@@ -102,21 +102,21 @@ following environment variables:
    Number of conected users.
 
 6. **numberOfUsers** Default: concurrencyLevel * 10
-	
+
    Total number of users (connected or not)
 
 7. **randomSeed** - Default: 666
-	
+
    The seed to generate random values
 
 8. **timeout** - Default: 20000
-	
+
    Timeout in milliseconds for clients while waiting for new messages
 
 9. **maxEventSourceBatchSize** - Default: 100
 
    The event source flushes messages in random batch sizes and ramdomize the messages
-   order for each batch. For example, if this configuration is "1" the event source 
+   order for each batch. For example, if this configuration is "1" the event source
    will send only ordered messages flushing the connection for each message.
 
 10. **logInterval** - Default: 1000
