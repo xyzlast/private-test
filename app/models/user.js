@@ -7,10 +7,10 @@ class User extends EventEmitter {
     super();
     this.id = id;
     this.socket = socket;
-    this.followUsers = [];
+    this.followedUsers = [];
   }
   followTo(targetUser) {
-
+    targetUser.followedUsers.push(targetUser);
   }
   unfollowFrom(targetUser) {
 

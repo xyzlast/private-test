@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (() => {
-  let users = [];
+  let users = {};
   const _ = require('lodash');
   const User = require('./user');
   const EventEmitter = require('events').EventEmitter;
@@ -9,19 +9,22 @@ module.exports = (() => {
   function add(userId, socket) {
     socket._userId = userId;
     const user = new User(userId, socket);
-    users.push(user);
+    users[user.id] = user;
+
     socket.on('close', () => {
-      _.remove(users, user => user.id === socket._userId);
+      delete users[socket._userId];
+      emitter.emit('remove-user', userId);
     });
     emitter.emit('add-user', user);
   }
 
   function remove(userId) {
     _.remove(users, user => user.id === userId);
+    emitter.emit('remove-user', userId);
   }
 
   function findByUserId(userId) {
-    return _(users).find(user => user.id === userId);
+    return users[userId];
   }
 
   function getAll() {
@@ -29,7 +32,7 @@ module.exports = (() => {
   }
 
   function removeAll() {
-    users = [];
+    users = {};
     return true;
   }
 

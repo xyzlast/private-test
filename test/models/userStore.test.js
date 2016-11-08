@@ -2,6 +2,7 @@
 
 const assert = require('assert');
 const MockSocket = require('./mockSocket');
+const _ = require('lodash');
 
 describe('UserStore Test', () => {
   it ('사용자 추가', done => {
@@ -13,8 +14,12 @@ describe('UserStore Test', () => {
     UserStore.add('0029', new MockSocket());
     UserStore.add('0030', new MockSocket());
 
-    const users = UserStore.getAll();
-    assert.equal(users.length, 5);
+    const allUsers = UserStore.getAll();
+    let itemCount = 0;
+    _.forIn(allUsers, (value, key) => {
+      itemCount++;
+    });
+    assert.equal(itemCount, 5);
     done();
   });
 
@@ -31,7 +36,11 @@ describe('UserStore Test', () => {
     targetUser.socket.close();
 
     const allUsers = UserStore.getAll();
-    assert.equal(allUsers.length, 4);
+    let itemCount = 0;
+    _.forIn(allUsers, (value, key) => {
+      itemCount++;
+    });
+    assert.equal(itemCount, 4);
     done();
   });
 });

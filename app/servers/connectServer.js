@@ -24,9 +24,9 @@ class ConnectServer extends EventEmitter {
     this.server.close(cb);
   }
   bindClient(client) {
-    const parser = new Parser('\r\n');
+    const parser = new Parser();
     client.on('data', data => {
-      parser.parse(data.toString() + '\r\n');
+      parser.parse(data.toString() + '\n');
     });
     parser.on('data-received', userId => {
       this.emit('connect-user', userId, client);
