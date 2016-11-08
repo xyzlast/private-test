@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = (mazeEvent) => {
-  const UserStore = require('../../models/userStore');
+module.exports = (mazeEvent, UserStore) => {
   const fromUser = UserStore.findByUserId(mazeEvent.fromUserId);
   const toUser = UserStore.findByUserId(mazeEvent.toUserId);
   if (!fromUser || !toUser) {
-    return;
+    return { fromUser, toUser };
   }
-  return fromUser.sendPrivateMessage(toUser);
+  fromUser.sendPrivateMessage(toUser);
+  return { fromUser, toUser };
 };

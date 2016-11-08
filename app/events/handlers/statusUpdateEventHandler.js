@@ -1,10 +1,9 @@
 'use strict';
 
-module.exports = (mazeEvent) => {
-  const UserStore = require('../../models/userStore');
+module.exports = (mazeEvent, UserStore) => {
   const fromUser = UserStore.findByUserId(mazeEvent.fromUserId);
-  if (!fromUser) {
-    return;
+  if (fromUser) {
+    fromUser.updateStatus();
   }
-  return fromUser.updateStatus();
+  return { fromUser: fromUser, toUser: null };
 };

@@ -13,6 +13,7 @@ const UnfollowEventHandler = require('./handlers/unfollowEventHandler');
 const BroadcastEventHandler = require('./handlers/broadcastEventHandler');
 const PrivateMessageEventHandler = require('./handlers/privateMessageEventHandler');
 const StatusUpdateEventHandler = require('./handlers/statusUpdateEventHandler');
+const UserStore = require('../models/UserStore');
 
 class MazeEvent {
 
@@ -53,7 +54,7 @@ class MazeEvent {
     default:
       throw new Error('Wrong Event Type!');
     }
-    return eventHandler(this);
+    return eventHandler(this, UserStore);
   }
 }
 
