@@ -1,0 +1,22 @@
+{
+    "rules": {
+      "indent": [2, 2],
+      "quotes": [2, "single"],
+      "linebreak-style": [0, "windows"],
+      "semi": [2, "always"],
+      "keyword-spacing": 2,
+      "strict": [2, "global"],
+      "space-before-function-paren": [2, { "anonymous": "always", "named": "never" }],
+      "no-var": 2
+    },
+    "env": {
+      "node": true,
+      "es6": true
+    },
+    "ecmaFeatures": {
+      "blockBindings": true
+    },
+    "globals": {
+    },
+    "extends": "eslint:recommended"
+}

@@ -12,7 +12,7 @@ class Parser extends EventEmitter {
   }
 
   parse(data) {
-    const items = (this.buffer + data.toString()).split(this.matcher)
+    const items = (this.buffer + data.toString()).split(this.matcher);
     this.buffer = items.pop();
     items.forEach(item => {
       this.emit('data-received', item);
