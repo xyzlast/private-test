@@ -1,25 +1,16 @@
 /*eslint no-console: ["error", { allow: ["log", "error"] }] */
 'use strict';
 
-const ConnectServer = require('./app/servers/connectServer');
-const connectServer = new ConnectServer();
-const UserStore = require('./app/models/userStore');
+const ServerBuilder = require('./app/servers/serverBuilder');
 
-connectServer.listen(9099, (err) => {
+ServerBuilder.buildUserServer(9099, (err) => {
   if (err) {
     console.error(err);
   } else {
-    console.log('start UserConnectServer: port(9099)');
+    console.log('start UserServer: port(9099)');
   }
 });
-connectServer.on('connect-user', (userId, socket) => {
-  UserStore.add(userId, socket);
-});
-
-
-const EventServer = require('./app/servers/eventServer');
-const eventServer = new EventServer();
-eventServer.listen(9090, (err) => {
+ServerBuilder.buildEventServer(9090, (err) => {
   if (err) {
     console.error(err);
   } else {

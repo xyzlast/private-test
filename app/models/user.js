@@ -12,10 +12,8 @@ class User extends EventEmitter {
   }
 
   addFollower(fromUser, payload) {
-    if (fromUser) {
-      this.followUsers[fromUser.id] = fromUser;
-      fromUser.followedUsers[this.id] = this;
-    }
+    this.followUsers[fromUser.id] = fromUser;
+    fromUser.followedUsers[this.id] = this;
     this.notify(payload);
   }
 
