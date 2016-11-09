@@ -18,8 +18,8 @@ describe('FollowEventHandler Test', () => {
     const result = FollowEventHandler(event, mockUserStore);
     assert.ok(result.toUser);
     assert.ok(result.fromUser);
-    assert.equal(result.toUser.lastCalled, 'none');
-    assert.equal(result.fromUser.lastCalled, 'follow');
+    assert.equal(result.toUser.lastCalled, 'follow');
+    assert.equal(result.fromUser.lastCalled, 'none');
   });
 
   it ('process - toUser 없음', () => {
@@ -58,5 +58,6 @@ describe('FollowEventHandler Test', () => {
     const result = FollowEventHandler(event, mockUserStore);
     assert.ok(result.toUser);
     assert.ok(!result.fromUser);
+    assert.equal(result.toUser.lastCalled, 'follow');
   });
 });

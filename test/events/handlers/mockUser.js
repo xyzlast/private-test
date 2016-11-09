@@ -5,14 +5,14 @@ class MockUser {
     this.id = id;
     this.lastCalled = 'none';
   }
-  follow() {
+  addFollower() {
     this.lastCalled = 'follow';
   }
   unfollow() {
     this.lastCalled = 'unfollow';
   }
-  sendPrivateMessage() {
-    this.lastCalled = 'sendPrivateMessage';
+  receivePrivateMessage() {
+    this.lastCalled = 'receivePrivateMessage';
   }
   notify() {}
   updateStatus() {

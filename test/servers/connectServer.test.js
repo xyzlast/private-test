@@ -14,9 +14,7 @@ describe('ConnectServer Test', () => {
     UserStore.removeAll();
     connectServer.listen(port, (err) => {
       if (err) {
-        console.log('====================================================');
-        console.error(err);
-        console.log('====================================================');
+        done(err);
       }
     });
     connectServer.on('connect-user', (userId, socket) => {
@@ -30,7 +28,6 @@ describe('ConnectServer Test', () => {
       client.end();
     });
     connectServer.close(function (err) {
-      console.log('connectServer.close');
       done();
     });
   });
@@ -56,24 +53,12 @@ describe('ConnectServer Test', () => {
     }
   });
 
-  it ('접속 종료 & 사용자 제거 확인', done => {
-    const client = clients.pop();
-    UserStore.on('remove-user', userId => {
-      const users = UserStore.getAll();
-      let userCount = 0;
-      console.log('====================================================');
-      _.forIn(users, (value, key) => {
-        console.log(value.toString());
-        userCount++;
-      });
-      console.log('====================================================');
-      assert.equal(userCount, USER_COUNT - 1);
+  it ('Socket 접속 종료 & 사용자 Socket 제거 확인', done => {
+    const targetUser = UserStore.getAll()['1'];
+    assert.ok(targetUser);
+    targetUser.socket.end(() => {
+      const checkUser = UserStore.findByUserId(targetUser.id);
       done();
-    });
-    client.end(err => {
-      if (err) {
-        done(err);
-      }
     });
   });
 

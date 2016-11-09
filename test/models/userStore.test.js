@@ -23,7 +23,7 @@ describe('UserStore Test', () => {
     done();
   });
 
-  it ('접속종료 & 사용자 자동제거 테스트', done => {
+  it ('접속종료 & 사용자 Socket제거 테스트', done => {
     const UserStore = require('../../app/models/userStore');
     UserStore.removeAll();
     UserStore.add('0026', new MockSocket());
@@ -35,12 +35,8 @@ describe('UserStore Test', () => {
     const targetUser = UserStore.findByUserId('0026');
     targetUser.socket.close();
 
-    const allUsers = UserStore.getAll();
-    let itemCount = 0;
-    _.forIn(allUsers, (value, key) => {
-      itemCount++;
-    });
-    assert.equal(itemCount, 4);
+    const user = UserStore.findByUserId('0026');
+    assert.ok(!user.socket);
     done();
   });
 

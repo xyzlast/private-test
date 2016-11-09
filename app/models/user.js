@@ -7,54 +7,51 @@ class User extends EventEmitter {
   constructor(id, socket) {
     super();
     this.id = id;
-    this.socket = socket;
     this.followUsers = {};
     this.followedUsers = {};
-    this.socket.on('close', () => {
-      _.forIn(this.followedUsers, followedUser => {
-        delete followedUser.followUsers[this.id];
-      });
-    });
+    this.socket = socket;
   }
 
-  follow(toUser) {
-    if (!toUser) return;
-    toUser.followUsers[this.id] = this;
-    this.followedUsers[toUser.id] = toUser;
-    toUser.notify(`Follow: User(${this.id}) is follow to you`);
+  addFollower(fromUser, payload) {
+    if (fromUser) {
+      this.followUsers[fromUser.id] = fromUser;
+      fromUser.followedUsers[this.id] = this;
+    }
+    this.notify(payload);
   }
 
   unfollow(toUser) {
-    if (!toUser) return;
     delete toUser.followUsers[this.id];
     delete this.followedUsers[toUser.id];
   }
 
-  sendPrivateMessage(toUser) {
-    if (!toUser) return;
-    const message = `Private Message: receive Private Message from User(${this.id})`;
-    toUser.notify(message);
-    return message;
+  receivePrivateMessage(payload) {
+    this.notify(payload);
   }
 
   notify(notification) {
-    this.socket.write(notification);
+    if (this.socket) {
+      this.socket.write(notification + '\r\n');
+    }
   }
 
-  updateStatus() {
-    _.forIn(this.followUsers, (follower) => {
-      follower.notify('Status Update: UpdateStatus');
-    });
+  updateStatus(payload) {
+    for (let followerId in this.followUsers) {
+      const follower = this.followUsers[followerId];
+      follower.notify(payload);
+    }
+    // _.forIn(this.followUsers, follower => {
+    // });
     return this.followUsers;
   }
 
-  broadcastMessage() {
-    this.notify('Broadcast: received Broadcast Message');
+  broadcastMessage(payload) {
+    this.notify(payload);
   }
 
   toString() {
     const followUserIds = [];
-    _.forIn(this.followUsers, (follower) => {
+    _.lodash(this.followUsers, follower => {
       followUserIds.push(follower.id);
     });
     return JSON.stringify({

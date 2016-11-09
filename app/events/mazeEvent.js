@@ -13,24 +13,20 @@ const UnfollowEventHandler = require('./handlers/unfollowEventHandler');
 const BroadcastEventHandler = require('./handlers/broadcastEventHandler');
 const PrivateMessageEventHandler = require('./handlers/privateMessageEventHandler');
 const StatusUpdateEventHandler = require('./handlers/statusUpdateEventHandler');
-const UserStore = require('../models/userStore');
 
 class MazeEvent {
 
   constructor(payload) {
     const items = payload.split('|');
+    this.payload = payload;
     this.sequence = +items[0];
     this.eventType = items[1];
-    this.fromUserId = null;
-    this.toUserId = null;
-    if (items.length === 3) {
-      this.fromUserId = +items[2];
-    } else if (items.length === 4) {
-      this.fromUserId = +items[2];
-      this.toUserId = +items[3];
-    } else if (items.length !== 2) {
-      throw new Error('wrong payload format!');
-    }
+    this.fromUserId = +items[2];
+    this.toUserId = +items[3];
+  }
+
+  toString() {
+    return JSON.stringify(this);
   }
 
   process() {
@@ -54,6 +50,7 @@ class MazeEvent {
     default:
       throw new Error('Wrong Event Type!');
     }
+    const UserStore = require('../models/userStore');
     return eventHandler(this, UserStore);
   }
 }

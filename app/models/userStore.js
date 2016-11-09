@@ -8,23 +8,39 @@ module.exports = (() => {
 
   function add(userId, socket) {
     socket._userId = userId;
-    const user = new User(userId, socket);
-    users[user.id] = user;
-
+    let user = users[userId];
+    if (user) {
+      if (user.socket) {
+        user.socket.end();
+      }
+      user.socket = socket;
+    } else {
+      user = new User(userId, socket);
+      users[user.id] = user;
+      socket.on('close', () => {
+        delete users[userId].socket;
+      });
+      emitter.emit('add-user', user);
+    }
     socket.on('close', () => {
-      delete users[socket._userId];
-      emitter.emit('remove-user', userId);
+      for (let followerUserId in user.followedUsers) {
+        const followedUser = user.followedUsers[followerUserId];
+        delete followedUser.followUsers[userId];
+      }
+      // _.forIn(user.followedUsers, followedUser => {
+      //   delete followedUser.followUsers[userId];
+      // });
+      delete user.socket;
     });
-    emitter.emit('add-user', user);
-  }
-
-  function remove(userId) {
-    _.remove(users, user => user.id === userId);
-    emitter.emit('remove-user', userId);
   }
 
   function findByUserId(userId) {
-    return users[userId];
+    let user = users[userId];
+    if (!user) {
+      user = new User(userId);
+      users[userId] = user;
+    }
+    return user;
   }
 
   function getAll() {
@@ -40,9 +56,9 @@ module.exports = (() => {
     add,
     findByUserId,
     getAll,
-    remove,
     removeAll,
-    on: emitter.on.bind(emitter)
+    on: emitter.on.bind(emitter),
+    removeListener: emitter.removeListener.bind(emitter)
   };
 
 })();

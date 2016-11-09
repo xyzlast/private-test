@@ -6,7 +6,6 @@ class MockSocket extends EventEmitter {
     super();
   }
   write(data) {
-    console.log(data);
     this.emit('data', data);
   }
   close() {
