@@ -5,17 +5,14 @@
 * Linux Mint 18 Sarah
 * nodejs 7.0.0
 * dependency: none
-* dev-dependency
- * lodash
- * mocha
+* dev-dependency: `lodash`, `mocha`
 
 ## 실행
-
-### Application 설치
 
 * 실행시, 3rd party dependency가 없어, 바로 실행이 가능합니다. (nodejs가 설치된 환경이어야지 됩니다.)
 * `test`는 `mocha`를 이용하고 있습니다.
 * `coverage`는 `istanbul`을 사용합니다.
+* `server` 실행 후, `clients` path에 있는 `followermaze.sh`를 실행.
 
 다음은 각 `cmd`입니다.
 
@@ -28,6 +25,7 @@ npm start
 ### test code 실행
 
 ```cmd
+npm install //mocha 설치
 npm test
 ```
 
