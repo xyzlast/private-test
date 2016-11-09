@@ -8,15 +8,5 @@
     "mocha": true
   },
   "globals": {
-    "DOMAIN": true,
-    "PORT": true,
-    "HOST": true,
-    "TestConstants": true,
-    "assert": true,
-    "agent": true,
-    "SystemRole": true,
-    "it": true,
-    "describe": true,
-    "testPath": true
   }
 }

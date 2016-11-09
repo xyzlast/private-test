@@ -11,7 +11,7 @@ describe('MazeEvent Test', () => {
     { str: '634|S|32', fromUserId: 32, toUserId: NaN, sequence: 634, eventType: 'S' }
   ];
 
-  it ('MazeEvent Build', () => {
+  it ('MazeEvent 생성 테스트', () => {
     testItems.forEach(item => {
       const mazeEvent = new MazeEvent(item.str);
       if (Number.isNaN(item.fromUserId)) {

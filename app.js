@@ -1,19 +1,27 @@
+/*eslint no-console: ["error", { allow: ["log", "error"] }] */
 'use strict';
 
-const ConnectServer = require('./app/servers/connectServer');
-const connectServer = new ConnectServer();
-const UserStore = require('./app/models/userStore');
+const ServerBuilder = require('./app/servers/serverBuilder');
+const EventDispatcher = require('./app/events/eventDispatcher');
 
-connectServer.listen(9099, (err) => {
-  console.error(err);
+EventDispatcher.on('process-event', event => {
+  if (event.sequence === 10000000) {
+    console.log('all event(count: 10000000) process completed');
+    console.log('exit application');
+    process.exit(0);
+  }
 });
-connectServer.on('connect-user', (userId, socket) => {
-  UserStore.add(userId, socket);
+ServerBuilder.buildEventServer(9090, (err) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('start EventServer: port(9090)');
+  }
 });
-
-
-const EventServer = require('./app/servers/eventServer');
-const eventServer = new EventServer();
-eventServer.listen(9090, (err) => {
-  console.error(err);
+ServerBuilder.buildUserServer(9099, (err) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('start UserServer: port(9099)');
+  }
 });
