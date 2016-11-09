@@ -7,7 +7,7 @@ const EventDispatcher = require('./app/events/eventDispatcher');
 EventDispatcher.on('process-event', event => {
   if (event.sequence === 10000000) {
     console.log('all event(count: 10000000) process completed');
-    console.log('exit application');
+    console.log('\\o/ exit application (xyzlast@gmail.com) \\o/');
     process.exit(0);
   }
 });
