@@ -26,7 +26,13 @@ class MazeEvent {
   }
 
   toString() {
-    return JSON.stringify(this);
+    const strObj = {
+      sequence: this.sequence,
+      eventType: this.eventType,
+      fromUserId: this.fromUserId,
+      toUserId: this.toUserId,
+    };
+    return JSON.stringify(strObj);
   }
 
   process() {
