@@ -1,7 +1,6 @@
 'use strict';
 module.exports = (() => {
   let users = {};
-  const _ = require('lodash');
   const User = require('./user');
   const EventEmitter = require('events').EventEmitter;
   const emitter = new EventEmitter();
@@ -27,9 +26,6 @@ module.exports = (() => {
         const followedUser = user.followedUsers[followerUserId];
         delete followedUser.followUsers[userId];
       }
-      // _.forIn(user.followedUsers, followedUser => {
-      //   delete followedUser.followUsers[userId];
-      // });
       delete user.socket;
     });
   }

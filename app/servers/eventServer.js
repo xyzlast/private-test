@@ -33,7 +33,6 @@ class EventServer extends EventEmitter {
     });
     parser.on('data-received', eventStr => {
       const event = new MazeEvent(eventStr);
-      // console.log(event.toString());
       this.eventDispatcher.process(event);
     });
   }
